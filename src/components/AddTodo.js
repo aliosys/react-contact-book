@@ -1,37 +1,37 @@
 import React, { useState } from "react";
 
-const AddContact = (props)=> {
+const AddTodo = (props)=> {
 
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [desc, setDesc] = useState('')
 
   const handleNameChange = (e) => {
     e.preventDefault();
     setName(e.target.value);
   }
 
-  const handleEmailChange = (e) => {
+  const handleDescChange = (e) => {
     e.preventDefault();
-    setEmail(e.target.value);
+    setDesc(e.target.value);
   }
   const add = (e) => {
     e.preventDefault();
-    if (name === "" || email === "") {
+    if (name === "" || desc === "") {
       alert("ALl the fields are mandatory!");
       return;
     }
-    props.addContactHandler({name: name, email: email});
-    setEmail('');
+    props.addTodosHandler({name: name, desc: desc});
+    setDesc('');
     setName('');
     props.history.push("/");
   };
   
     return (
       <div className="ui main">
-        <h2>Add Contact</h2>
+        <h2>Add Task</h2>
         <form className="ui form" onSubmit={add}>
           <div className="field">
-            <label>Name</label>
+            <label>Task Name...</label>
             <input
               type="text"
               name="name"
@@ -41,20 +41,20 @@ const AddContact = (props)=> {
             />
           </div>
           <div className="field">
-            <label>Email</label>
+            <label>Description</label>
             <input
               type="text"
-              name="email"
-              placeholder="Email"
-              value={email}
-              onChange={handleEmailChange}
+              name="description"
+              placeholder="Description"
+              value={desc}
+              onChange={handleDescChange}
             />
           </div>
-          <button className="ui button blue">Add</button>
+          <button className="ui button blue">Add Task</button>
         </form>
       </div>
     );
   
 }
 
-export default AddContact;
+export default AddTodo;

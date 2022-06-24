@@ -3,35 +3,35 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { uuid } from "uuidv4";
 import "./App.css";
 import Header from "./Header";
-import AddContact from "./AddContact";
-import ContactList from "./ContactList";
-import ContactDetail from "./ContactDetail";
+import AddTodo from "./AddTodo";
+import TodoList from "./TodoList";
+//import ContactDetail from "./ContactDetail";
 
 function App() {
-  const LOCAL_STORAGE_KEY = "contacts";
-  const [contacts, setContacts] = useState([]);
+  const LOCAL_STORAGE_KEY = "todos";
+  const [todos, setTodos] = useState([]);
 
-  const addContactHandler = (contact) => {
-    console.log(contact);
-    setContacts([...contacts, { id: uuid(), ...contact }]);
+  const addTodosHandler = (todo) => {
+    //console.log(todo);
+    setTodos([...todos, { id: uuid(), ...todo }]);
   };
 
-  const removeContactHandler = (id) => {
-    const newContactList = contacts.filter((contact) => {
-      return contact.id !== id;
+  const removeTodosHandler = (id) => {
+    const newTodosList = todos.filter((todo) => {
+      return todo.id !== id;
     });
 
-    setContacts(newContactList);
+    setTodos(newTodosList);
   };
 
   useEffect(() => {
-    const retriveContacts = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if (retriveContacts) setContacts(retriveContacts);
+    const retriveTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (retriveTodos) setTodos(retriveTodos);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
-  }, [contacts]);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <div className="ui container">
@@ -42,21 +42,21 @@ function App() {
             path="/"
             exact
             render={(props) => (
-              <ContactList
+              <TodoList
                 {...props}
-                contacts={contacts}
-                getContactId={removeContactHandler}
+                todos={todos}
+                getTodosId={removeTodosHandler}
               />
             )}
           />
           <Route
             path="/add"
             render={(props) => (
-              <AddContact {...props} addContactHandler={addContactHandler} />
+              <AddTodo {...props} addTodosHandler={addTodosHandler} />
             )}
           />
 
-          <Route path="/contact/:id" component={ContactDetail} />
+          {/* <Route path="/contact/:id" component={ContactDetail} /> */}
         </Switch>
       </Router>
     </div>
